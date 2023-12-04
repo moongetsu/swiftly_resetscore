@@ -7,7 +7,7 @@
   <h3 align="center">[Swiftly] Resetscore</h3>
 
   <p align="center">
-    A simple plugin for Swiftly that sets the stats from the tab to 0 to the player that used the `!rs`/`!resetscore` command.
+    A simple plugin for Swiftly that sets the stats from the tab to 0 to the player that used the !rs/!resetscore command.
     <br/>
     <br/>
     <strong>Explore the docs » (soon)</strong>

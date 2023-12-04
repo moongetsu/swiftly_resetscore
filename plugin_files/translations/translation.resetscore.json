@@ -1,10 +1,10 @@
 {
     "resetscore.message": {
-        "en": "%s You succesfully reseted your score!",
-        "ro": "%s Ți-ai resetat scorul cu succes!"
+        "en": "{lime}%s {default}You succesfully reseted your score!",
+        "ro": "{lime}%s Ți-ai resetat scorul cu succes!"
     },
     "already_resetted.message": {
-        "en": "%s Your score is already set on 0.",
-        "ro": "%s Scorul tău este deja setat pe 0."
+        "en": "{lime}%s {default}Your score is already set on {lime}0{default}.",
+        "ro": "{lime}%s {default}Scorul tău este deja setat pe {lime}0{default}."
     }
 }

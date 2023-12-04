@@ -18,24 +18,33 @@ void OnProgramLoad(const char *pluginName, const char *mainFilePath)
     config = new Configuration();
 }
 
-void Command_Resetscore(Player *player)
+void Command_Resetscore(int playerID, const char **args, uint32_t argsCount, bool silent)
 {
+    if (playerID == -1)
+        return;
+
+    Player *player = g_playerManager->GetPlayer(playerID);
+    if (player == nullptr)
+        return;
+
+    if (player->stats->Get(KILLS) == 0 && player->stats->Get(DEATHS) == 0 && player->stats->Get(ASSISTS) == 0 && player->stats->Get(DAMAGE) == 0)
+        return player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.already_resetted.message"), config->Fetch<const char *>("resetscore.prefix"));
+
     player->stats->Set(KILLS, 0);
     player->stats->Set(DEATHS, 0);
     player->stats->Set(ASSISTS, 0);
     player->stats->Set(DAMAGE, 0);
-    player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.resetscore.message"), config->Fetch<const char*>("resetscore.prefix"));
+    player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.resetscore.message"), config->Fetch<const char *>("resetscore.prefix"));
 }
 
 void OnPluginStart()
 {
-    commands->Register("resetscore", reinterpret_cast<void*>(&Command_Resetscore));
-    commands->Register("rs", reinterpret_cast<void*>(&Command_Resetscore));
+    commands->Register("resetscore", reinterpret_cast<void *>(&Command_Resetscore));
+    commands->Register("rs", reinterpret_cast<void *>(&Command_Resetscore));
 }
 
 void OnPluginStop()
 {
-
 }
 
 const char *GetPluginAuthor()

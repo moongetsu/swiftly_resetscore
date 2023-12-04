@@ -1,12 +1,10 @@
 #include <swiftly/swiftly.h>
 #include <swiftly/server.h>
 #include <swiftly/commands.h>
-#include <swiftly/configuration.h>
 
 Server *server = nullptr;
 PlayerManager *g_playerManager = nullptr;
 Commands *commands = nullptr;
-Configuration *config = nullptr;
 
 void OnProgramLoad(const char *pluginName, const char *mainFilePath)
 {
@@ -15,7 +13,6 @@ void OnProgramLoad(const char *pluginName, const char *mainFilePath)
     server = new Server();
     g_playerManager = new PlayerManager();
     commands = new Commands(pluginName);
-    config = new Configuration();
 }
 
 void Command_Resetscore(int playerID, const char **args, uint32_t argsCount, bool silent)
@@ -28,13 +25,13 @@ void Command_Resetscore(int playerID, const char **args, uint32_t argsCount, boo
         return;
 
     if (player->stats->Get(KILLS) == 0 && player->stats->Get(DEATHS) == 0 && player->stats->Get(ASSISTS) == 0 && player->stats->Get(DAMAGE) == 0)
-        return player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.already_resetted.message"), config->Fetch<const char *>("resetscore.prefix"));
+        return player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.already_resetted.message"));
 
     player->stats->Set(KILLS, 0);
     player->stats->Set(DEATHS, 0);
     player->stats->Set(ASSISTS, 0);
     player->stats->Set(DAMAGE, 0);
-    player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.resetscore.message"), config->Fetch<const char *>("resetscore.prefix"));
+    player->SendMsg(HUD_PRINTTALK, FetchTranslation("resetscore.resetscore.message"));
 }
 
 void OnPluginStart()

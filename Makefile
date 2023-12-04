@@ -36,15 +36,16 @@ else
 endif
 	mkdir $(TEMP_DIR)
 	$(foreach src,$(SRC_FILES),$(call COMPILE_FILE,$(src)))
-	mkdir $(BUILD_DIR)
-	mkdir "$(BUILD_DIR)/plugins"
-	mkdir "$(BUILD_DIR)/plugins/$(PROJECT_NAME)"
 
 ifeq ($(OS),Windows_NT)
-	@xcopy /e /k /h /i .\plugin_files $(BUILD_DIR)"\"
+	xcopy .\plugin_files .\$(BUILD_DIR) /E /C /I /F /R /Y
 else
+	mkdir $(BUILD_DIR)
 	@cp -r ./plugin_files/* ./$(BUILD_DIR)
 endif
+
+	mkdir "$(BUILD_DIR)/plugins"
+	mkdir "$(BUILD_DIR)/plugins/$(PROJECT_NAME)"
 
 ifeq ($(OS),Windows_NT)
 	$(CXX_COMMAND) -shared $(CXX_FLAGS) -o $(BUILD_DIR)/plugins/$(PROJECT_NAME)/$(PROJECT_NAME).dll $(OBJS_FILES)

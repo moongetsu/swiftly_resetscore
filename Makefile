@@ -19,11 +19,13 @@ endif
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 SRC_FILES := $(call rwildcard,$(SRC_DIR),*.cpp)
-TEMP_OBJS_FILES = $(subst /,_,$(patsubst %.cpp, %.o, $(SRC_FILES)))
+SRC_FILES += $(call rwildcard,$(BEHIND_PATH)/includes/swiftly,*.cpp)
+TEMP_OBJS_FILES = $(subst :,_,$(subst /,_,$(patsubst %.cpp, %.o, $(SRC_FILES))))
 OBJS_FILES = $(patsubst %o,$(TEMP_DIR)/%o,$(TEMP_OBJS_FILES))
 
 define COMPILE_FILE
-	$(CXX_COMMAND) $(CXX_FLAGS) -o $(TEMP_DIR)/$(subst /,_,$(subst .cpp,.o,$(1))) -c $(1)
+	$(CXX_COMMAND) $(CXX_FLAGS) -o $(TEMP_DIR)/$(subst :,_,$(subst /,_,$(subst .cpp,.o,$(1)))) -c $(1)
+	
 endef
 
 build:
@@ -36,7 +38,7 @@ else
 endif
 	mkdir $(TEMP_DIR)
 	$(foreach src,$(SRC_FILES),$(call COMPILE_FILE,$(src)))
-
+	
 ifeq ($(OS),Windows_NT)
 	xcopy .\plugin_files .\$(BUILD_DIR) /E /C /I /F /R /Y
 else

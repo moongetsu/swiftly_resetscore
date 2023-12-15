@@ -1,4 +1,5 @@
 #include <swiftly/swiftly.h>
+#include <swiftly/gamevents.h>
 #include <swiftly/server.h>
 #include <swiftly/commands.h>
 
